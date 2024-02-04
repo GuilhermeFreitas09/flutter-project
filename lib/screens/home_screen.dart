@@ -20,9 +20,7 @@ class MyHomeScreen extends StatelessWidget {
               // Navegar para a tela de configurações
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        MyConfigScreen()), // Substitua pelo nome correto da tela de configurações
+                MaterialPageRoute(builder: (context) => MyConfigScreen()),
               );
             },
           ),

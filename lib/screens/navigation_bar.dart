@@ -33,7 +33,6 @@ class BottomNavigationState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = <Widget>[
-      // Mova a lista para o método build
       ChapterWords(selectedChapter: epubProvider.selectedChapter),
       MyFlashCardsScreen(),
     ];

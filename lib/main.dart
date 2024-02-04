@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/epub_provider.dart';
 import 'screens/home_screen.dart';
-import 'screens/navigation_bar.dart';
-import 'screens/history_screen.dart';
+//import 'screens/navigation_bar.dart';
+//import 'screens/history_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,10 +24,10 @@ class MyApp extends StatelessWidget {
               Color.fromARGB(255, 94, 161, 212), // Cinza claro
         ),
         home: MyHomeScreen(),
-        routes: {
-          '/History': (context) => MyHistoryScreen(),
-          '/Cards': (context) => MyCardsScreen(),
-        },
+        //routes: {
+        // '/History': (context) => MyHistoryScreen(),
+        //'/Cards': (context) => MyCardsScreen(),
+        //},
       ),
     );
   }
