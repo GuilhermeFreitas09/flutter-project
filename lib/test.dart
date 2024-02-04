@@ -1,82 +1,44 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:convert';
 
-/// Flutter code sample for [BottomNavigationBar].
+List<String> returnAllWords(Map<String, dynamic> epubMap) {
+  List<String> allWords = [];
 
-void main() => runApp(const BottomNavigationBarExampleApp());
+  Map<String, dynamic> chapters =
+      Map<String, dynamic>.from(epubMap['chapters']);
 
-class BottomNavigationBarExampleApp extends StatelessWidget {
-  const BottomNavigationBarExampleApp({super.key});
+  chapters.forEach((chapterTitle, words) {
+    if (words is List) {
+      allWords.addAll(words.cast<String>());
+    }
+  });
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: BottomNavigationBarExample(),
-    );
-  }
+  return allWords;
 }
 
-class BottomNavigationBarExample extends StatefulWidget {
-  const BottomNavigationBarExample({super.key});
+List<String> returnChapterWords(
+    Map<String, dynamic> epubMap, String chapterTitle) {
+  List<String> chapterWords = [];
 
-  @override
-  State<BottomNavigationBarExample> createState() =>
-      _BottomNavigationBarExampleState();
+  Map<String, dynamic> chapters =
+      Map<String, dynamic>.from(epubMap['chapters']);
+
+  if (chapters.containsKey(chapterTitle)) {
+    chapterWords = chapters[chapterTitle]?.cast<String>().toList() ?? [];
+  }
+
+  return chapterWords;
 }
 
-class _BottomNavigationBarExampleState
-    extends State<BottomNavigationBarExample> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-  ];
+void main() async {
+  File selectedFile = File('tests/input1.json');
+  String selectedEpubJson = await selectedFile.readAsString();
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  Map<String, dynamic> epubMap = json.decode(selectedEpubJson);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
-    );
-  }
+  print('Todas as palavras: ${returnAllWords(epubMap)}');
+
+  String desiredChapter = 'chapter2';
+  print(
+      'Palavras do capítulo $desiredChapter: ${returnChapterWords(epubMap, desiredChapter)}');
 }

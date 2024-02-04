@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 
 class EpubProvider extends ChangeNotifier {
-  Map<String, dynamic> _chapterContent = {};
-  Map<String, dynamic> get chapterContent => _chapterContent;
+  Map<String, dynamic> _bookContent = {};
+  Map<String, dynamic> get bookContent => _bookContent;
 
   bool _isSelected = false;
   bool get isSelected => _isSelected;
-
-  int _selectedIndex = 0;
-  int get isSelectedIndex => _selectedIndex;
 
   String _selectedChapter = '';
   String get selectedChapter => _selectedChapter;
@@ -18,7 +15,7 @@ class EpubProvider extends ChangeNotifier {
   int get selectedAppBar => _selectedAppBar;
 
   Future<void> loadEpub(String epubJson) async {
-    _chapterContent = json.decode(epubJson);
+    _bookContent = json.decode(epubJson);
     _selectedChapter = '';
     _isSelected = true;
     notifyListeners();
@@ -26,11 +23,6 @@ class EpubProvider extends ChangeNotifier {
 
   Future<void> loadChapter(String newSelectedChapter) async {
     _selectedChapter = newSelectedChapter;
-    notifyListeners();
-  }
-
-  Future<void> updateIndex(int newSelectedIndex) async {
-    _selectedIndex = newSelectedIndex;
     notifyListeners();
   }
 

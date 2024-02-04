@@ -25,7 +25,7 @@ class ChapterSelection extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return _buildCapitulosDialog(
-          List<String>.from(epubProvider.chapterContent.keys),
+          List<String>.from(epubProvider.bookContent['chapters'].keys),
           context, // Passando context para o método _buildCapituloItem
         );
       },

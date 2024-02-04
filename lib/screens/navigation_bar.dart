@@ -38,9 +38,7 @@ class BottomNavigationState extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Título do livro'),
-      ),
+      appBar: AppBar(title: Text(epubProvider.bookContent['title'])),
       body: Center(
         child: widgetOptions.elementAt(epubProvider.selectedAppBar),
       ),

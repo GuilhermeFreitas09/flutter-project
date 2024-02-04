@@ -15,16 +15,16 @@ class ChapterWords extends StatelessWidget {
     var epubProvider = context.watch<EpubProvider>();
 
     double screenHeight = MediaQuery.of(context).size.height;
+    JsonProcessor jsonProcessor = JsonProcessor(epubProvider.bookContent);
 
-    List<String> allWords = selectedChapter != ''
-        ? (epubProvider.chapterContent[selectedChapter] as List<dynamic>?)
-                ?.map((element) => element.toString())
-                .toList() ??
-            []
-        : epubProvider.chapterContent.values
-            .expand((lista) => lista)
-            .map((element) => element.toString())
-            .toList();
+    List<String> allWords;
+    if (selectedChapter == '') {
+      //allWords = epubProvider.bookContent['chapters'].values.expand((lista) => lista.map((element) => element.toString())).toList();
+      allWords = jsonProcessor.returnAllWords();
+    } else {
+      //allWords = (epubProvider.bookContent['chapters'][selectedChapter] as List<dynamic>?)?.map((element) => element.toString()).toList() ??[];
+      allWords = jsonProcessor.returnChapterWords(selectedChapter);
+    }
 
     if (epubProvider.isSelected) {
       return SizedBox(
@@ -66,7 +66,7 @@ class WordTile extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: InkWell(
         onTap: onTap,
-        splashColor: Colors.transparent, // Remover efeito de toque
+        splashColor: Colors.transparent,
         child: ExpansionTile(
           title: Text(
             wordCard,
@@ -86,5 +86,39 @@ class WordTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class JsonProcessor {
+  Map<String, dynamic> bookContent;
+
+  JsonProcessor(this.bookContent);
+
+  List<String> returnAllWords() {
+    List<String> allWords = [];
+
+    Map<String, dynamic> chapters =
+        Map<String, dynamic>.from(bookContent['chapters']);
+
+    chapters.forEach((chapterTitle, words) {
+      if (words is List) {
+        allWords.addAll(words.cast<String>());
+      }
+    });
+
+    return allWords;
+  }
+
+  List<String> returnChapterWords(String chapterTitle) {
+    List<String> chapterWords = [];
+
+    Map<String, dynamic> chapters =
+        Map<String, dynamic>.from(bookContent['chapters']);
+
+    if (chapters.containsKey(chapterTitle)) {
+      chapterWords = chapters[chapterTitle]?.cast<String>().toList() ?? [];
+    }
+
+    return chapterWords;
   }
 }
