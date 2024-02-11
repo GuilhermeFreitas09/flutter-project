@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../providers/epub_provider.dart';
 import 'card_words_screen.dart';
 import 'flashcards_screen.dart';
-import '../src/chapter_selecion.dart';
+import '../utils/chapter_selecion.dart';
 
 class MyCardsScreen extends StatelessWidget {
   @override

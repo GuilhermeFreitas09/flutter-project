@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:hive/hive.dart';
 
 class EpubProvider extends ChangeNotifier {
   Map<String, dynamic> _bookContent = {};
@@ -15,7 +16,9 @@ class EpubProvider extends ChangeNotifier {
   int get selectedAppBar => _selectedAppBar;
 
   Future<void> loadEpub(String epubJson) async {
+    final bookBox = await Hive.openBox<Map<String, dynamic>>('bookBox');
     _bookContent = json.decode(epubJson);
+    await bookBox.put(_bookContent['title'], _bookContent);
     _selectedChapter = '';
     _isSelected = true;
     notifyListeners();

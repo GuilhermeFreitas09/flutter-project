@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../src/epub_selection.dart';
+import '../utils/epub_selection.dart';
 import 'package:provider/provider.dart';
 import '../../providers/epub_provider.dart';
 import 'navigation_bar.dart';
@@ -14,16 +14,7 @@ class MyHomeScreen extends StatelessWidget {
         title: Text('Lang Helper'),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              // Navegar para a tela de configurações
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyConfigScreen()),
-              );
-            },
-          ),
+          configWidget(context),
         ],
       ),
       body: Center(
@@ -36,6 +27,19 @@ class MyHomeScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  IconButton configWidget(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.settings),
+      onPressed: () {
+        // Navegar para a tela de configurações
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyConfigScreen()),
+        );
+      },
     );
   }
 }
@@ -136,78 +140,3 @@ PageRouteBuilder _createRouteHistory() {
     },
   );
 }
-
-/*
-class FlashCard extends StatelessWidget {
-  const FlashCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    var epubProvider = context.watch<EpubProvider>();
-    return ElevatedButton(
-      onPressed: () async {
-        await selectFile(epubProvider);
-        // ignore: use_build_context_synchronously
-        Navigator.pushNamed(context, '/Cards');
-      },
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      child: Text(
-        'Novo Livro',
-        style: TextStyle(fontSize: 20),
-      ),
-    );
-  }
-}
-
-
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => const Page2(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
-
-
-class HistoryFiles extends StatelessWidget {
-  const HistoryFiles({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.pushNamed(context, '/History');
-      },
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      child: Text(
-        'Histórico',
-        style: TextStyle(fontSize: 20),
-      ),
-    );
-  }
-}
-*/
